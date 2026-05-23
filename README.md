@@ -1,3 +1,3 @@
 # Phishing-Detector
-Developers: Deon George
+Developers: Deon George and
             Dhanush m
