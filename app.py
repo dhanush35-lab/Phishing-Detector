@@ -1,6 +1,6 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-import pickle
+import joblib
 import numpy as np
 from explainability import PhishingExplainer
 
@@ -17,7 +17,7 @@ CORS(app)
 # -----------------------------
 # Load Trained Model
 # -----------------------------
-model = pickle.load(open("phishing_model.pkl", "rb"))
+model = joblib.load("phishing_model.pkl")
 
 # -----------------------------
 # Feature Names
@@ -31,7 +31,29 @@ feature_names = [
     'double_slash_redirecting',
     'Prefix_Suffix',
     'having_Sub_Domain',
-    'SSLfinal_State'
+    'SSLfinal_State',
+    'Domain_registeration_length',
+    'Favicon',
+    'port',
+    'HTTPS_token',
+    'Request_URL',
+    'URL_of_Anchor',
+    'Links_in_tags',
+    'SFH',
+    'Submitting_to_email',
+    'Abnormal_URL',
+    'Redirect',
+    'on_mouseover',
+    'RightClick',
+    'popUpWidnow',
+    'Iframe',
+    'age_of_domain',
+    'DNSRecord',
+    'web_traffic',
+    'Page_Rank',
+    'Google_Index',
+    'Links_pointing_to_page',
+    'Statistical_report'
 ]
 
 # -----------------------------
@@ -44,6 +66,11 @@ explainer = PhishingExplainer(model, feature_names)
 # -----------------------------
 @app.route("/")
 def home():
+    return render_template("index.html")
+
+
+@app.route("/health")
+def health():
     return jsonify({
         "message": "Phishing Detection API is running"
     })
@@ -58,30 +85,38 @@ def predict():
         # Get URL from frontend
         data = request.get_json()
 
-        if "url" not in data:
+        if not data or "url" not in data:
             return jsonify({
                 "error": "URL not provided"
             }), 400
 
-        url = data["url"]
+        url = data["url"].strip()
+
+        if not url:
+            return jsonify({
+                "error": "URL not provided"
+            }), 400
 
         # -----------------------------
         # Feature Extraction
         # -----------------------------
         features = extract_features(url)
 
-        # Convert into numpy array
-        features_array = np.array(features).reshape(1, -1)
+        # Convert extracted features into model input in training order
+        features_array = np.array(
+            [[features[name] for name in feature_names]],
+            dtype=float
+        )
 
         # -----------------------------
         # Prediction
         # -----------------------------
-        prediction = model.predict(features_array)[0]
+        prediction = int(model.predict(features_array)[0])
 
         # Probability
         probability = model.predict_proba(features_array)[0]
 
-        confidence = round(max(probability) * 100, 2)
+        confidence = float(round(max(probability) * 100, 2))
 
         # -----------------------------
         # Explainability
