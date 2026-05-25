@@ -242,10 +242,11 @@ body {
 .status-pill {
   display: inline-flex;
   align-items: center;
-  padding: 8px 14px;
+  padding: 10px 18px;
   border-radius: 999px;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 .status-pill.idle {
@@ -280,9 +281,60 @@ body {
 
 .summary-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "url url"
+    "confidence prediction";
   gap: 14px;
   margin-top: 22px;
+}
+
+.card-url {
+  grid-area: url;
+}
+
+.card-confidence {
+  grid-area: confidence;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-prediction {
+  grid-area: prediction;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.circular-progress {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: conic-gradient(var(--primary) 0%, var(--impact-bg) 0%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.circular-progress::before {
+  content: "";
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: var(--card-bg);
+}
+
+.progress-value {
+  position: relative;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-main);
 }
 
 .summary-card {

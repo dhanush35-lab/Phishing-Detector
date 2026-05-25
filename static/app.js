@@ -165,8 +165,16 @@ function renderChart(explanations, prediction) {
 
 function renderResult(data) {
   predictionValue.textContent = data.prediction || "Unknown";
-  confidenceValue.textContent = `${Number(data.confidence || 0).toFixed(2)}%`;
-  urlValue.textContent = truncateText(data.url);
+  
+  const confNum = Number(data.confidence || 0);
+  confidenceValue.textContent = `${confNum.toFixed(2)}%`;
+  
+  const circle = document.getElementById("confidence-circle");
+  if (circle) {
+    circle.style.background = `conic-gradient(var(--primary) ${confNum}%, var(--impact-bg) ${confNum}%)`;
+  }
+
+  urlValue.textContent = truncateText(data.url, 120);
   renderExplanation(data.explanation || []);
   renderFeatures(data.features || {});
   renderChart(data.explanation || [], data.prediction);
@@ -215,6 +223,11 @@ form.addEventListener("submit", async (event) => {
   scanButton.disabled = true;
   setStatus("Scanning...", "loading");
   requestMessage.textContent = "Contacting the Flask API and extracting phishing indicators.";
+  
+  const circle = document.getElementById("confidence-circle");
+  if (circle) {
+    circle.style.background = `conic-gradient(var(--primary) 0%, var(--impact-bg) 0%)`;
+  }
 
   try {
     const result = await scanUrl(url);
