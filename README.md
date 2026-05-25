@@ -137,9 +137,6 @@ deactivate
 
 This project is licensed under the MIT License.
 
-## Developed by
-- Dhanush M
-## Designed By
-- Deon George
+Built with ❤️ by Deon George | Dhanush M
 
 
