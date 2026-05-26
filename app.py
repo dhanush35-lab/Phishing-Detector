@@ -120,7 +120,7 @@ def predict():
         # Probability
         probability = model.predict_proba(features_array)[0]
 
-        confidence = float(round(max(probability) * 100, 2))
+        threat_level = float(round(probability[1] * 100, 2))
 
         # -----------------------------
         # Explainability
@@ -131,9 +131,9 @@ def predict():
         # Convert Prediction
         # -----------------------------
         if prediction == 1:
-            result = "Legitimate"
-        else:
             result = "Phishing"
+        else:
+            result = "Legitimate"
 
         # -----------------------------
         # Final Response
@@ -141,8 +141,9 @@ def predict():
         response = {
             "url": url,
             "prediction": result,
-            "confidence": confidence,
+            "threat_level": threat_level,
             "features": features,
+
             "explanation": explanation
         }
 
