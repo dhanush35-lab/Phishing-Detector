@@ -4,7 +4,7 @@ const scanButton = document.getElementById("scan-button");
 const statusPill = document.getElementById("status-pill");
 const requestMessage = document.getElementById("request-message");
 const predictionValue = document.getElementById("prediction-value");
-const confidenceValue = document.getElementById("confidence-value");
+const threatValue = document.getElementById("threat-value");
 const urlValue = document.getElementById("url-value");
 const explanationList = document.getElementById("explanation-list");
 const featureList = document.getElementById("feature-list");
@@ -166,12 +166,13 @@ function renderChart(explanations, prediction) {
 function renderResult(data) {
   predictionValue.textContent = data.prediction || "Unknown";
   
-  const confNum = Number(data.confidence || 0);
-  confidenceValue.textContent = `${confNum.toFixed(2)}%`;
+  const threatNum = Number(data.threat_level || 0);
+  threatValue.textContent = `${threatNum.toFixed(2)}%`;
   
-  const circle = document.getElementById("confidence-circle");
+  const circle = document.getElementById("threat-circle");
   if (circle) {
-    circle.style.background = `conic-gradient(var(--primary) ${confNum}%, var(--impact-bg) ${confNum}%)`;
+    // If we want a nice visual effect for threat level, it could go from safe (low) to danger (high), but for now we keep the same styling.
+    circle.style.background = `conic-gradient(var(--primary) ${threatNum}%, var(--impact-bg) ${threatNum}%)`;
   }
 
   urlValue.textContent = truncateText(data.url, 120);
@@ -224,7 +225,7 @@ form.addEventListener("submit", async (event) => {
   setStatus("Scanning...", "loading");
   requestMessage.textContent = "Contacting the Flask API and extracting phishing indicators.";
   
-  const circle = document.getElementById("confidence-circle");
+  const circle = document.getElementById("threat-circle");
   if (circle) {
     circle.style.background = `conic-gradient(var(--primary) 0%, var(--impact-bg) 0%)`;
   }
