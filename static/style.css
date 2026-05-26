@@ -72,6 +72,29 @@
   --impact-bg: rgba(76, 255, 76, 0.12);
 }
 
+[data-theme="warning"] {
+  --bg-start: #fff6e6;
+  --bg-end: #ffebb3;
+  --panel-border: rgba(255, 153, 0, 0.22);
+  --shadow: 0 20px 45px rgba(204, 122, 0, 0.14);
+  --text-main: #5b4214;
+  --text-soft: #a17c5d;
+  --primary: #ff9900;
+  --primary-dark: #cc7a00;
+  --badge-grad-start: #ffb347;
+  --badge-grad-end: #ff8c00;
+  --input-border: rgba(219, 144, 79, 0.22);
+  --input-border-focus: rgba(255, 153, 0, 0.9);
+  --input-shadow-focus: rgba(255, 153, 0, 0.14);
+  --btn-shadow: rgba(210, 126, 61, 0.22);
+  --pill-idle-bg: rgba(255, 153, 0, 0.12);
+  --card-bg: rgba(255, 250, 241, 0.95);
+  --card-border: rgba(255, 153, 0, 0.18);
+  --legend-bg: rgba(255, 252, 243, 0.92);
+  --item-bg: rgba(255, 253, 245, 0.96);
+  --impact-bg: rgba(255, 153, 0, 0.12);
+}
+
 
 * {
   box-sizing: border-box;
@@ -305,6 +328,11 @@ body {
 .status-pill.danger {
   background: rgba(239, 107, 123, 0.16);
   color: #bf4152;
+}
+
+.status-pill.warning {
+  background: rgba(255, 153, 0, 0.16);
+  color: #bf7300;
 }
 
 .status-pill.error {

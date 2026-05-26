@@ -130,8 +130,10 @@ def predict():
         # -----------------------------
         # Convert Prediction
         # -----------------------------
-        if prediction == 1:
+        if threat_level >= 70:
             result = "Phishing"
+        elif threat_level >= 30:
+            result = "Medium Legitimate"
         else:
             result = "Legitimate"
 

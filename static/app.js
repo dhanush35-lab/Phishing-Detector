@@ -13,6 +13,7 @@ const chartContext = document.getElementById("feature-chart");
 
 const defaultColors = ["#4ca6ff", "#7bc5ff", "#9ad8ff", "#74b0ff", "#5a91f0"];
 const dangerColors = ["#ff4d4d", "#ff6666", "#ff8080", "#e63939", "#cc0000"];
+const warningColors = ["#ffa64d", "#ffb366", "#ffc080", "#ff9933", "#ff8c1a"];
 const safeColors = ["#47d147", "#5cd65c", "#70db70", "#33cc33", "#29a329"];
 
 let featureChart = null;
@@ -97,6 +98,8 @@ function renderChart(explanations, prediction) {
   let activeColors = defaultColors;
   if (prediction === "Phishing") {
     activeColors = dangerColors;
+  } else if (prediction === "Medium Legitimate") {
+    activeColors = warningColors;
   } else if (prediction === "Legitimate") {
     activeColors = safeColors;
   }
@@ -184,6 +187,10 @@ function renderResult(data) {
     document.documentElement.setAttribute('data-theme', 'danger');
     setStatus("Threat detected", "danger");
     requestMessage.textContent = "The model marked this URL as suspicious. Review the explanation and chart carefully.";
+  } else if (data.prediction === "Medium Legitimate") {
+    document.documentElement.setAttribute('data-theme', 'warning');
+    setStatus("Medium threat found but you can browse", "warning");
+    requestMessage.textContent = "The model marked this URL as a medium threat. Proceed with caution.";
   } else {
     document.documentElement.setAttribute('data-theme', 'safe');
     setStatus("Looks legitimate", "safe");
