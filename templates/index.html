@@ -31,23 +31,23 @@
 
     <div class="stats-container">
       <div class="stat-box">
-        <h3>142,053</h3>
+        <h3>{{ "{:,}".format(stats['visitors']) if stats else 0 }}</h3>
         <p>Total Visitors</p>
       </div>
       <div class="stat-box">
-        <h3>85,412</h3>
+        <h3>{{ "{:,}".format(stats['scans']) if stats else 0 }}</h3>
         <p>Websites Scanned</p>
       </div>
       <div class="stat-box">
-        <h3>12,308</h3>
+        <h3>{{ "{:,}".format(stats['phishing']) if stats else 0 }}</h3>
         <p>Phishing Found</p>
       </div>
       <div class="stat-box">
-        <h3>68,104</h3>
+        <h3>{{ "{:,}".format(stats['legitimate']) if stats else 0 }}</h3>
         <p>Legitimate Found</p>
       </div>
       <div class="stat-box">
-        <h3>5,000</h3>
+        <h3>{{ "{:,}".format(stats['medium']) if stats else 0 }}</h3>
         <p>Medium Risk</p>
       </div>
     </div>

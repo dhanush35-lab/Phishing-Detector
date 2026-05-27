@@ -3,6 +3,47 @@ from flask_cors import CORS
 import joblib
 import numpy as np
 from explainability import PhishingExplainer
+import sqlite3
+import os
+
+DB_PATH = 'stats.db'
+
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute('''
+        CREATE TABLE IF NOT EXISTS stats (
+            id INTEGER PRIMARY KEY CHECK (id = 1),
+            visitors INTEGER DEFAULT 0,
+            scans INTEGER DEFAULT 0,
+            phishing INTEGER DEFAULT 0,
+            legitimate INTEGER DEFAULT 0,
+            medium INTEGER DEFAULT 0
+        )
+    ''')
+    c.execute('INSERT OR IGNORE INTO stats (id, visitors, scans, phishing, legitimate, medium) VALUES (1, 0, 0, 0, 0, 0)')
+    conn.commit()
+    conn.close()
+
+init_db()
+
+def get_stats():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    c.execute('SELECT * FROM stats WHERE id = 1')
+    row = c.fetchone()
+    conn.close()
+    return dict(row) if row else None
+
+def increment_stat(column):
+    valid_columns = ['visitors', 'scans', 'phishing', 'legitimate', 'medium']
+    if column in valid_columns:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        c.execute(f'UPDATE stats SET {column} = {column} + 1 WHERE id = 1')
+        conn.commit()
+        conn.close()
 
 # Import your custom files
 from featureextraction import extract_features
@@ -66,7 +107,9 @@ explainer = PhishingExplainer(model, feature_names)
 # -----------------------------
 @app.route("/")
 def home():
-    return render_template("index.html")
+    increment_stat('visitors')
+    stats = get_stats()
+    return render_template("index.html", stats=stats)
 
 @app.route("/dashboard")
 def dashboard():
@@ -132,10 +175,15 @@ def predict():
         # -----------------------------
         if threat_level >= 70:
             result = "Phishing"
+            increment_stat('phishing')
         elif threat_level >= 30:
             result = "Medium Legitimate"
+            increment_stat('medium')
         else:
             result = "Legitimate"
+            increment_stat('legitimate')
+
+        increment_stat('scans')
 
         # -----------------------------
         # Final Response
