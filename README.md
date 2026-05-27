@@ -34,8 +34,6 @@ A comprehensive phishing website detection system using Machine Learning. This p
 
 - Python 3.11 or higher
 - pip (Python package installer)
-- SQLite3
-
 
 ### Setup
 
