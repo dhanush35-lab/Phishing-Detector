@@ -18,10 +18,12 @@ A comprehensive phishing website detection system using Machine Learning. This p
 - **Explainable AI**: Uses **SHAP** to explain model predictions
 - **Real-time API**: Flask-based API for easy integration
 - **Modern Interface**: Clean, responsive web interface
+- **Analytics Tracking**: Uses SQLite3 to persistently track visitor counts, total scans, and detection statistics
 
 ## Tech Stack
 
 - **Backend**: Python 3.11+, Flask, Flask-CORS
+- **Database**: SQLite3
 - **Machine Learning**: Scikit-learn, XGBoost, SHAP, NumPy, Pandas
 - **Web Scraping**: Requests, Beautiful Soup, python-whois
 - **Frontend**: HTML, CSS, JavaScript (Vanilla)
@@ -86,6 +88,7 @@ Phishing-Detector/
 ├── templates/             # HTML templates
 │   └── index.html
 ├── app.py                 # Flask application and API
+├── stats.db               # SQLite database for analytics tracking
 ├── features.py            # Feature engineering
 ├── phishing_detector.ipynb  # Jupyter notebook experiments
 └── requirements.txt       # Dependencies
