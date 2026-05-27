@@ -10,9 +10,6 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=1.3">
 </head>
 <body class="home-page">
-  <video autoplay muted loop id="bg-video">
-    <source src="{{ url_for('static', filename='video.mp4') }}" type="video/mp4">
-  </video>
   <div class="page-shell">
     <header class="hero-card">
       <div class="hero-copy">
@@ -31,6 +28,29 @@
         <strong>Phishing Detector</strong>
       </div>
     </header>
+
+    <div class="stats-container">
+      <div class="stat-box">
+        <h3>142,053</h3>
+        <p>Total Visitors</p>
+      </div>
+      <div class="stat-box">
+        <h3>85,412</h3>
+        <p>Websites Scanned</p>
+      </div>
+      <div class="stat-box">
+        <h3>12,308</h3>
+        <p>Phishing Found</p>
+      </div>
+      <div class="stat-box">
+        <h3>68,104</h3>
+        <p>Legitimate Found</p>
+      </div>
+      <div class="stat-box">
+        <h3>5,000</h3>
+        <p>Medium Risk</p>
+      </div>
+    </div>
 
     <footer class="site-footer">
       <p>Built by <a href="https://github.com/deon-george" target="_blank" rel="noopener noreferrer">deon-george</a> | <a href="https://github.com/dhanush35-lab" target="_blank" rel="noopener noreferrer">dhanush35-lab</a></p>
